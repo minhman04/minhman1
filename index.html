@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Huỳnh Minh Mẩn</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Dancing+Script:wght@400;600&display=swap">
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        :root {
+            --color-env: #f9a8d4;
+            --color-env2: #f472b6;
+            --color-flap: #f472b6;
+            --color-bg: #f6d0d4;
+            --color-heart: #ff6b81;
+            --env-border-radius: 6px;
+            --env-width: 280px;
+            --env-height: 180px;
+            --heart-width: 50px;
+        }
+
+        body {
+            background-color: var(--color-bg);
+            font-family: 'Dancing Script', cursive;
+        }
+
+        .envlope-wrapper {
+            height: calc(var(--env-height) + 200px);
+        }
+
+        #envelope {
+            position: relative;
+            width: var(--env-width);
+            height: var(--env-height);
+            border-bottom-left-radius: var(--env-border-radius);
+            border-bottom-right-radius: var(--env-border-radius);
+            margin-left: auto;
+            margin-right: auto;
+            top: 250px;
+            background-color: var(--color-flap);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            animation: tran 3s infinite;
+        }
+
+        @keyframes tran {
+            0% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(20px);
+
+            }
+
+            100% {
+                transform: translateY(0px);
+            }
+        }
+
+        .front {
+            position: absolute;
+            width: 0;
+            height: 0;
+            z-index: 3;
+        }
+
+        .flap {
+            border-left: calc(var(--env-width) / 2) solid transparent;
+            border-right: calc(var(--env-width) / 2) solid transparent;
+            border-bottom: calc((var(--env-height) / 2) - 8) solid transparent;
+            border-top: calc((var(--env-height) / 2) + 8) solid var(--color-flap);
+            transform-origin: top;
+            pointer-events: none;
+        }
+
+        .pocket {
+            border-left: calc(var(--env-width) / 2) solid var(--color-env);
+            border-right: calc(var(--env-width) / 2) solid var(--color-env);
+            border-bottom: calc(var(--env-height) / 2) solid var(--color-env2);
+            border-top: calc(var(--env-height) / 2) solid transparent;
+            border-bottom-left-radius: var(--env-border-radius);
+            border-bottom-right-radius: var(--env-border-radius);
+            z-index: 40;
+        }
+
+        .pocket2 {
+            position: absolute;
+            border-left: calc(var(--env-width) / 2) solid transparent;
+            border-right: calc(var(--env-width) / 2) solid transparent;
+            border-bottom: calc(var(--env-height) / 2) solid transparent;
+            border-top: calc(var(--env-height) / 2) solid var(--color-env2);
+            border-bottom-left-radius: var(--env-border-radius);
+            border-bottom-right-radius: var(--env-border-radius);
+            transform-origin: top;
+            transform: translateY(0%) rotateX(0deg);
+            transition: transform 0.8s ease, z-index 0.6s;
+            z-index: 2;
+        }
+
+
+        .letter {
+            position: relative;
+            background-color: #fff;
+            width: 90%;
+            margin-left: auto;
+            margin-right: auto;
+            height: 90%;
+            top: 5%;
+            border-radius: var(--env-border-radius);
+            box-shadow: 0 2px 26px rgba(0, 0, 0, 0.12);
+            transition: transform 0.4s ease;
+        }
+
+        .letter:after {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-image: linear-gradient(180deg, rgba(255, 255, 255, 0.00) 25%, rgba(215, 227, 239, 0.70) 55%, rgba(215, 227, 239, 1.00) 100%);
+        }
+
+        .words {
+            position: absolute;
+            left: 10%;
+            width: 80%;
+            height: 14%;
+        }
+
+        .words.line1 {
+            top: 15%;
+            width: 90%;
+            height: 7%;
+            color: #ff1493;
+            font-size: 2em;
+            font-weight: 900;
+        }
+
+        .words.line2 {
+            bottom: 5%;
+            left: 50%;
+        }
+
+        .open .flap {
+            transform: rotateX(180deg);
+            transition: transform 0.4s ease, z-index 0.6s;
+            z-index: 1;
+        }
+
+        .close .flap {
+            transform: rotateX(0deg);
+            transition: transform 0.4s 0.6s ease, z-index 1s;
+            z-index: 5;
+        }
+
+        .close .letter {
+            transform: translateY(0px);
+            transition: transform 0.4s ease, z-index 1s;
+            z-index: 1;
+        }
+
+        .open .letter {
+            transform: translateY(calc(-1 * (var(--env-height) / 3))) rotate(-5deg);
+            transition: transform 0.4s 0.6s ease, z-index 0.6s;
+            z-index: 2;
+        }
+
+        .open .pocket2 {
+            transform: translateY(0%) rotateX(180deg);
+        }
+
+        .zoom .letter {
+            transform: scale(2) translateY(calc(-1 * (var(--env-height) / 3))) rotate(-5deg);
+            transition: transform 0.4s ease;
+            z-index: 22222;
+        }
+
+        .hearts {
+            position: absolute;
+            top: calc(var(--env-height) / 2);
+            left: 0;
+            right: 0;
+            z-index: 2;
+        }
+
+        .heart {
+            position: absolute;
+            bottom: 0;
+            right: 10%;
+            pointer-events: none;
+        }
+
+        .heart:before,
+        .heart:after {
+            position: absolute;
+            content: "";
+            left: var(--heart-width);
+            top: 0;
+            width: var(--heart-width);
+            height: calc(var(--heart-width) * 1.6);
+            background: var(--color-heart);
+            border-radius: var(--heart-width) var(--heart-width) 0 0;
+            transform: rotate(-45deg);
+            transform-origin: 0 100%;
+            pointer-events: none;
+        }
+
+        .heart:after {
+            left: 0;
+            transform: rotate(45deg);
+            transform-origin: 100% 100%;
+        }
+
+        .close .heart {
+            opacity: 0;
+            animation: none;
+        }
+
+        .a1 {
+            left: 20%;
+            transform: scale(0.6);
+            opacity: 1;
+            animation: slideUp 4s linear 1, sideSway 2s ease-in-out 4 alternate;
+            animation-fill-mode: forwards;
+            animation-delay: 0.7s;
+        }
+
+        .a2 {
+            left: 55%;
+            transform: scale(1);
+            opacity: 1;
+            animation: slideUp 5s linear 1, sideSway 4s ease-in-out 2 alternate;
+            animation-fill-mode: forwards;
+            animation-delay: 0.7s;
+        }
+
+        .a3 {
+            left: 10%;
+            transform: scale(0.8);
+            opacity: 1;
+            animation: slideUp 7s linear 1, sideSway 2s ease-in-out 6 alternate;
+            animation-fill-mode: forwards;
+            animation-delay: 0.7s;
+        }
+
+        @keyframes slideUp {
+            0% {
+                top: 0;
+            }
+
+            100% {
+                top: -600px;
+            }
+        }
+
+        @keyframes sideSway {
+            0% {
+                margin-left: 0px;
+            }
+
+            100% {
+                margin-left: 50px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="envlope-wrapper">
+        <div id="envelope" class="close">
+            <div class="front">
+                <div class="flap"></div>
+                <div class="pocket"></div>
+            </div>
+            <div class="pocket2"></div>
+
+            <div class="letter">
+                <div class="words line1">Làm ít thôi đừng quá sức anh Kính à, dễ bệnh lắm!</div>
+                <div class="words line2">Huỳnh Minh Mẩn</div>
+            </div>
+            <div class="hearts">
+                <div class="heart a1"></div>
+                <div class="heart a2"></div>
+                <div class="heart a3"></div>
+            </div>
+        </div>
+    </div>
+    <script>
+        $(document).ready(function () {
+            var envelope = $('#envelope');
+            var clickCount = 0;
+
+            // Sự kiện nhấp vào envelope
+            envelope.on('click', function () {
+                clickCount++;
+                if (clickCount === 1) {
+                    openEnvelope();
+                } else if (clickCount === 2) {
+                    zoomLetter();
+                } else if (clickCount === 3) {
+                    normalizeLetter();
+                } else if (clickCount === 4) {
+                    closeEnvelope();
+                    clickCount = 0; // Reset click count
+                }
+            });
+
+            function openEnvelope() {
+                envelope.addClass("open").removeClass("close");
+            }
+
+            function zoomLetter() {
+                envelope.addClass("zoom");
+            }
+
+            function normalizeLetter() {
+                envelope.removeClass("zoom");
+            }
+
+            function closeEnvelope() {
+                envelope.addClass("close").removeClass("open zoom");
+            }
+        });
+    </script>
+</body>
+
+</html>
